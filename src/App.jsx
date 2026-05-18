@@ -25,8 +25,8 @@ const App = () => {
 								Check in
 							</Button>
 							<Button
-								variation="secondary"
-								size="small"
+								$variation="secondary"
+								$size="small"
 								onClick={() => alert("Check out")}
 							>
 								Check out
