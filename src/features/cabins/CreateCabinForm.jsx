@@ -33,12 +33,8 @@ const CreateCabinForm = () => {
 
 	const onSubmit = (data) => {
 		mutate({
-			name: data.name,
-			description: data.description,
-			image_url: data.image,
-			max_capacity: data.maxCapacity,
-			base_price: data.basePrice,
-			discount: data.discount,
+			...data,
+			image: data.image.item(0),
 		});
 	};
 
@@ -118,7 +114,14 @@ const CreateCabinForm = () => {
 			</FormRow>
 
 			<FormRow label="Cabin photo">
-				<FileInput id="image" accept="image/*" disabled={isLoading} />
+				<FileInput
+					id="image"
+					accept="image/*"
+					disabled={isLoading}
+					{...register("image", {
+						required: "This field is required",
+					})}
+				/>
 			</FormRow>
 
 			<FormRow>
