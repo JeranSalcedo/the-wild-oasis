@@ -11,21 +11,31 @@ const getCabins = async () => {
 	return data;
 };
 
-const createCabin = async (cabin) => {
-	const imageName = `${crypto.randomUUID()}-${cabin.image.name}`.replaceAll(
-		"/",
-		"",
-	);
-	const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+const uploadImage = async (image) => {
+	const isNewImage = image !== null && typeof image === "object";
+	const imageName = isNewImage
+		? `${crypto.randomUUID()}-${image.name}`.replaceAll("/", "")
+		: image.split("/").at(-1);
 
-	const { error: storageError } = await supabase.storage
-		.from("cabin-images")
-		.upload(imageName, cabin.image);
+	if (isNewImage) {
+		const { error } = await supabase.storage
+			.from("cabin-images")
+			.upload(imageName, image);
 
-	if (storageError) {
-		console.error(storageError);
-		throw new Error("Cabin image failed to upload");
+		if (error) {
+			console.error(error);
+			throw new Error("Cabin image failed to upload");
+		}
 	}
+
+	const imagePath = isNewImage
+		? `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`
+		: image;
+	return { imageName, imagePath };
+};
+
+const createCabin = async (cabin) => {
+	const { imageName, imagePath } = await uploadImage(cabin.image);
 
 	const { data, error } = await supabase.from("cabins").insert([
 		{
@@ -49,30 +59,14 @@ const createCabin = async (cabin) => {
 };
 
 const updateCabin = async (id, cabin) => {
-	const isNewImage = cabin.image !== null && typeof cabin.image === "object";
-	const imageName = `${crypto.randomUUID()}-${cabin.image.name}`.replaceAll(
-		"/",
-		"",
-	);
-	const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
-
-	if (isNewImage) {
-		const { error: storageError } = await supabase.storage
-			.from("cabin-images")
-			.upload(imageName, cabin.image);
-
-		if (storageError) {
-			console.error(storageError);
-			throw new Error("Cabin image failed to upload");
-		}
-	}
+	const { imagePath } = await uploadImage(cabin.image);
 
 	const { data, error } = await supabase
 		.from("cabins")
 		.update({
 			name: cabin.name,
 			description: cabin.description,
-			image_url: isNewImage ? imagePath : cabin.image,
+			image_url: imagePath,
 			max_capacity: cabin.maxCapacity,
 			base_price: cabin.basePrice,
 			discount: cabin.discount,
