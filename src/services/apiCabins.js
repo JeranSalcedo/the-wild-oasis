@@ -48,6 +48,45 @@ const createCabin = async (cabin) => {
 	return data;
 };
 
+const updateCabin = async (id, cabin) => {
+	const isNewImage = cabin.image !== null && typeof cabin.image === "object";
+	const imageName = `${crypto.randomUUID()}-${cabin.image.name}`.replaceAll(
+		"/",
+		"",
+	);
+	const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+
+	if (isNewImage) {
+		const { error: storageError } = await supabase.storage
+			.from("cabin-images")
+			.upload(imageName, cabin.image);
+
+		if (storageError) {
+			console.error(storageError);
+			throw new Error("Cabin image failed to upload");
+		}
+	}
+
+	const { data, error } = await supabase
+		.from("cabins")
+		.update({
+			name: cabin.name,
+			description: cabin.description,
+			image_url: isNewImage ? imagePath : cabin.image,
+			max_capacity: cabin.maxCapacity,
+			base_price: cabin.basePrice,
+			discount: cabin.discount,
+		})
+		.eq("id", id);
+
+	if (error) {
+		console.error(error);
+		throw new Error("Cabin could not be created");
+	}
+
+	return data;
+};
+
 const deleteCabin = async (id) => {
 	if (!id) {
 		throw new Error("Missing id");
@@ -63,4 +102,4 @@ const deleteCabin = async (id) => {
 	return data;
 };
 
-export { getCabins, createCabin, deleteCabin };
+export { getCabins, createCabin, updateCabin, deleteCabin };

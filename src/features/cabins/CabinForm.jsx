@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-import { createCabin } from "../../services/apiCabins";
+import { createCabin, updateCabin } from "../../services/apiCabins";
 
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
@@ -11,22 +11,42 @@ import Input from "../../ui/Input";
 import FormRow from "../../ui/FormRow";
 import TextArea from "../../ui/TextArea";
 
-const CabinForm = () => {
+const CabinForm = ({ cabin = {} }) => {
+	const isEdit = Boolean(cabin.id);
+
 	const queryClient = useQueryClient();
 
-	const { register, handleSubmit, getValues, formState, reset } = useForm();
+	const { register, handleSubmit, getValues, formState, reset } = useForm({
+		defaultValues: {
+			name: cabin.name ?? "",
+			description: cabin.description ?? "",
+			maxCapacity: cabin.max_capacity ?? 1,
+			basePrice: cabin.base_price ?? 1,
+			discount: cabin.discount ?? 0,
+		},
+	});
 	const { errors } = formState;
 
 	const { isLoading, mutate } = useMutation({
-		mutationFn: createCabin,
+		mutationFn: isEdit
+			? (data) =>
+					updateCabin(cabin.id, {
+						...data,
+						image: data.image ?? cabin.image_url,
+					})
+			: createCabin,
 		onSuccess: () => {
-			toast.success("New cabin successfully created");
+			toast.success(
+				isEdit
+					? "Cabin successfully edited"
+					: "New cabin successfully created",
+			);
 
 			queryClient.invalidateQueries({
 				queryKey: ["cabins"],
 			});
 
-			reset();
+			if (!isEdit) reset();
 		},
 		onError: (error) => toast.error(error.message),
 	});
@@ -119,13 +139,15 @@ const CabinForm = () => {
 					accept="image/*"
 					disabled={isLoading}
 					{...register("image", {
-						required: "This field is required",
+						required: isEdit ? false : "This field is required",
 					})}
 				/>
 			</FormRow>
 
 			<FormRow>
-				<Button disabled={isLoading}>Add cabin</Button>
+				<Button disabled={isLoading}>
+					{isEdit ? "Edit cabin" : "Add cabin"}
+				</Button>
 				<Button $variation="secondary" type="reset">
 					Cancel
 				</Button>
