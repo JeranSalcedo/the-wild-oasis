@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
 
 import { formatCurrency } from "../../utils/helpers";
 import { deleteCabin } from "../../services/apiCabins";
 import toast from "react-hot-toast";
+import CabinForm from "./CabinForm";
 
 const TableRow = styled.div`
 	display: grid;
@@ -68,17 +70,28 @@ const CabinRow = ({ cabin }) => {
 		onError: (error) => toast.error(error.message),
 	});
 
+	const [visible, setVisible] = useState(false);
+
 	return (
-		<TableRow role="row">
-			<Img src={imageURL} />
-			<Cabin>{name}</Cabin>
-			<div>Fits up to {maxCapacity} guests</div>
-			<Price>{formatCurrency(basePrice)}</Price>
-			<Discount>{formatCurrency(discount)}</Discount>
-			<button onClick={() => mutate(id)} disabled={isLoading}>
-				Delete
-			</button>
-		</TableRow>
+		<>
+			<TableRow role="row">
+				<Img src={imageURL} />
+				<Cabin>{name}</Cabin>
+				<div>Fits up to {maxCapacity} guests</div>
+				<Price>{formatCurrency(basePrice)}</Price>
+				<Discount>{formatCurrency(discount)}</Discount>
+
+				<div>
+					<button onClick={() => setVisible((visible) => !visible)}>
+						Edit
+					</button>
+					<button onClick={() => mutate(id)} disabled={isLoading}>
+						Delete
+					</button>
+				</div>
+			</TableRow>
+			{visible && <CabinForm cabin={cabin} />}
+		</>
 	);
 };
 
