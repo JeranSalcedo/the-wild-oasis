@@ -83,7 +83,7 @@ const CabinForm = ({ cabin = {} }) => {
 				/>
 			</FormRow>
 
-			<FormRow label="maxCapacity" error={errors?.maxCapacity?.message}>
+			<FormRow label="Max Capacity" error={errors?.maxCapacity?.message}>
 				<Input
 					type="number"
 					id="maxCapacity"
@@ -99,7 +99,7 @@ const CabinForm = ({ cabin = {} }) => {
 				/>
 			</FormRow>
 
-			<FormRow label="basePrice" error={errors?.basePrice?.message}>
+			<FormRow label="Base Price" error={errors?.basePrice?.message}>
 				<Input
 					type="number"
 					id="basePrice"
@@ -115,7 +115,7 @@ const CabinForm = ({ cabin = {} }) => {
 				/>
 			</FormRow>
 
-			<FormRow label="discount" error={errors?.discount?.message}>
+			<FormRow label="Discount" error={errors?.discount?.message}>
 				<Input
 					type="number"
 					id="discount"
