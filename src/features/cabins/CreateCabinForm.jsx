@@ -1,10 +1,13 @@
 import { useForm } from "react-hook-form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
 
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Form from "../../ui/Form";
 import Input from "../../ui/Input";
+import { createCabin } from "../../services/apiCabins";
+import toast from "react-hot-toast";
 
 const FormRow = styled.div`
 	align-items: center;
@@ -37,10 +40,33 @@ const Label = styled.label`
 `;
 
 const CreateCabinForm = () => {
-	const { register, handleSubmit } = useForm();
+	const queryClient = useQueryClient();
+
+	const { register, handleSubmit, reset } = useForm();
+
+	const { isLoading, mutate } = useMutation({
+		mutationFn: createCabin,
+		onSuccess: () => {
+			toast.success("New cabin successfully created");
+
+			queryClient.invalidateQueries({
+				queryKey: ["cabins"],
+			});
+
+			reset();
+		},
+		onError: (error) => toast.error(error.message),
+	});
 
 	const onSubmit = (data) => {
-		console.log(data);
+		mutate({
+			name: data.name,
+			description: data.description,
+			image_url: data.image,
+			max_capacity: data.maxCapacity,
+			base_price: data.basePrice,
+			discount: data.discount,
+		});
 	};
 
 	return (
@@ -93,7 +119,7 @@ const CreateCabinForm = () => {
 			</FormRow>
 
 			<FormRow>
-				<Button>Add cabin</Button>
+				<Button disabled={isLoading}>Add cabin</Button>
 				<Button $variation="secondary" type="reset">
 					Cancel
 				</Button>

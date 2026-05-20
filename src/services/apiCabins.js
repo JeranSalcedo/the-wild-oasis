@@ -11,6 +11,17 @@ const getCabins = async () => {
 	return data;
 };
 
+const createCabin = async (cabin) => {
+	const { data, error } = await supabase.from("cabins").insert([cabin]);
+
+	if (error) {
+		console.error(error);
+		throw new Error("Cabin could not be created");
+	}
+
+	return data;
+};
+
 const deleteCabin = async (id) => {
 	if (!id) {
 		throw new Error("Missing id");
@@ -26,4 +37,4 @@ const deleteCabin = async (id) => {
 	return data;
 };
 
-export { getCabins, deleteCabin };
+export { getCabins, createCabin, deleteCabin };
