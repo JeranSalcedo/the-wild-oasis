@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 import { createCabin } from "../../services/apiCabins";
 
@@ -7,8 +8,8 @@ import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Form from "../../ui/Form";
 import Input from "../../ui/Input";
-import toast from "react-hot-toast";
 import FormRow from "../../ui/FormRow";
+import TextArea from "../../ui/TextArea";
 
 const CreateCabinForm = () => {
 	const queryClient = useQueryClient();
@@ -59,7 +60,7 @@ const CreateCabinForm = () => {
 			</FormRow>
 
 			<FormRow label="Description" error={errors?.description?.message}>
-				<Input
+				<TextArea
 					type="text"
 					id="description"
 					disabled={isLoading}
