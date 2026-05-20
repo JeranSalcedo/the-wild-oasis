@@ -11,7 +11,7 @@ import Input from "../../ui/Input";
 import FormRow from "../../ui/FormRow";
 import TextArea from "../../ui/TextArea";
 
-const CreateCabinForm = () => {
+const CabinForm = () => {
 	const queryClient = useQueryClient();
 
 	const { register, handleSubmit, getValues, formState, reset } = useForm();
@@ -134,4 +134,4 @@ const CreateCabinForm = () => {
 	);
 };
 
-export default CreateCabinForm;
+export default CabinForm;

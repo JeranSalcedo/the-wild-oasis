@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import Button from "../ui/Button";
 import CabinsTable from "../features/cabins/CabinsTable";
-import CreateCabinForm from "../features/cabins/CreateCabinForm";
+import CabinForm from "../features/cabins/CabinForm";
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
 
@@ -22,7 +22,7 @@ const Cabins = () => {
 				<Button onClick={() => setVisible((visible) => !visible)}>
 					Add new cabin
 				</Button>
-				{visible && <CreateCabinForm />}
+				{visible && <CabinForm />}
 			</Row>
 		</>
 	);
