@@ -11,7 +11,7 @@ const sizes = {
 	medium: css`
 		font-size: 1.4rem;
 		font-weight: 500;
-		padding: 1.2rem 2.4rem;
+		padding: 1.2rem 1.6rem;
 	`,
 	large: css`
 		font-size: 1.6rem;
@@ -30,7 +30,7 @@ const variations = {
 		}
 	`,
 	secondary: css`
-		background-color: var(--color-gray-0);
+		background: var(--color-gray-0);
 		border: 1px solid var(--color-gray-200);
 		color: var(--color-gray-600);
 
