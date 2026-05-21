@@ -14,4 +14,20 @@ const getSettings = async () => {
 	return data;
 };
 
-export { getSettings };
+const updateSetting = async (setting) => {
+	const { data, error } = await supabase
+		.from("settings")
+		.update(setting)
+		.eq("id", 1)
+		.select()
+		.single();
+
+	if (error) {
+		console.error(error);
+		throw new Error("Settings could not be updated");
+	}
+
+	return data;
+};
+
+export { getSettings, updateSetting };
