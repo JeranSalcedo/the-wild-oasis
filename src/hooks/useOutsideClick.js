@@ -5,7 +5,12 @@ const useOutsideClick = (handler, listenCapturing = true) => {
 
 	useEffect(() => {
 		const handleClick = (e) => {
-			if (ref.current && !ref.current.contains(e.target)) handler();
+			if (
+				ref.current &&
+				!ref.current.contains(e.target) &&
+				!e.target.closest("[data-menu-trigger]")
+			)
+				handler();
 		};
 
 		document.addEventListener("click", handleClick, listenCapturing);

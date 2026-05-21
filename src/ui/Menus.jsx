@@ -86,11 +86,13 @@ const Toggle = ({ id }) => {
 		useContext(MenuContext);
 
 	const handleClick = (e) => {
+		e.stopPropagation();
+
 		const { x, y, height, width } = e.target
 			.closest("button")
 			.getBoundingClientRect();
 
-		if (activeMenu === "" || activeMenu !== id) {
+		if (activeMenu !== id) {
 			setActiveMenu(id);
 			setPosition({
 				x: window.innerWidth - width - x,
@@ -102,7 +104,7 @@ const Toggle = ({ id }) => {
 	};
 
 	return (
-		<StyledToggle onClick={handleClick}>
+		<StyledToggle data-menu-trigger onClick={handleClick}>
 			<HiEllipsisVertical />
 		</StyledToggle>
 	);
