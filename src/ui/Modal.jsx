@@ -4,6 +4,8 @@ import styled from "styled-components";
 
 import { HiXMark } from "react-icons/hi2";
 
+import { useOutsideClick } from "../hooks/useOutsideClick";
+
 const StyledModal = styled.div`
 	background-color: var(--color-gray-0);
 	border-radius: var(--border-radius-lg);
@@ -76,11 +78,13 @@ const Open = ({ window, children }) => {
 const Window = ({ name, children }) => {
 	const { activeWindow, close } = useContext(ModalContext);
 
+	const ref = useOutsideClick(close);
+
 	if (name !== activeWindow) return null;
 
 	return createPortal(
 		<Overlay>
-			<StyledModal>
+			<StyledModal ref={ref}>
 				<Button onClick={close}>
 					<HiXMark />
 				</Button>
