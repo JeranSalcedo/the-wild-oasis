@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 
@@ -7,6 +6,7 @@ import { useCreateCabin } from "./useCreateCabin";
 import { useDeleteCabin } from "./useDeleteCabin";
 
 import CabinForm from "./CabinForm";
+import Modal from "../../ui/Modal";
 
 const TableRow = styled.div`
 	display: grid;
@@ -62,8 +62,6 @@ const CabinRow = ({ cabin }) => {
 	const { isDeleting, deleteCabin } = useDeleteCabin();
 	const isLoading = isCreating || isDeleting;
 
-	const [visible, setVisible] = useState(false);
-
 	const handleDuplicate = () => {
 		createCabin({
 			name: `Copy of ${name}`,
@@ -76,35 +74,41 @@ const CabinRow = ({ cabin }) => {
 	};
 
 	return (
-		<>
-			<TableRow role="row">
-				<Img src={imageURL} />
-				<Cabin>{name}</Cabin>
-				<div>Fits up to {maxCapacity} guests</div>
-				<Price>{formatCurrency(basePrice)}</Price>
-				{discount ? (
-					<Discount>{formatCurrency(discount)}</Discount>
-				) : (
-					<span>&mdash;</span>
-				)}
+		<TableRow role="row">
+			<Img src={imageURL} />
+			<Cabin>{name}</Cabin>
+			<div>Fits up to {maxCapacity} guests</div>
+			<Price>{formatCurrency(basePrice)}</Price>
+			{discount ? (
+				<Discount>{formatCurrency(discount)}</Discount>
+			) : (
+				<span>&mdash;</span>
+			)}
 
-				<div>
-					<button onClick={handleDuplicate} disabled={isLoading}>
-						<HiSquare2Stack />
-					</button>
-					<button onClick={() => setVisible((visible) => !visible)}>
-						<HiPencil />
-					</button>
+			<div>
+				<button onClick={handleDuplicate} disabled={isLoading}>
+					<HiSquare2Stack />
+				</button>
+
+				<Modal>
+					<Modal.Open window="edit-cabin-form">
+						<button>
+							<HiPencil />
+						</button>
+					</Modal.Open>
+					<Modal.Window name="edit-cabin-form">
+						<CabinForm cabin={cabin} />
+					</Modal.Window>
+
 					<button
 						onClick={() => deleteCabin(id)}
 						disabled={isLoading}
 					>
 						<HiTrash />
 					</button>
-				</div>
-			</TableRow>
-			{visible && <CabinForm cabin={cabin} />}
-		</>
+				</Modal>
+			</div>
+		</TableRow>
 	);
 };
 
