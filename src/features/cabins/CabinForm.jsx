@@ -10,7 +10,7 @@ import Input from "../../ui/Input";
 import FormRow from "../../ui/FormRow";
 import TextArea from "../../ui/TextArea";
 
-const CabinForm = ({ cabin = {} }) => {
+const CabinForm = ({ cabin = {}, onCloseModal }) => {
 	const isEdit = Boolean(cabin.id);
 
 	const { register, handleSubmit, getValues, formState, reset } = useForm({
@@ -39,7 +39,10 @@ const CabinForm = ({ cabin = {} }) => {
 					},
 				},
 				{
-					onSuccess: () => reset(),
+					onSuccess: () => {
+						reset();
+						onCloseModal?.();
+					},
 				},
 			);
 		} else {
@@ -49,7 +52,10 @@ const CabinForm = ({ cabin = {} }) => {
 					image: data.image.item(0),
 				},
 				{
-					onSuccess: () => reset(),
+					onSuccess: () => {
+						reset();
+						onCloseModal?.();
+					},
 				},
 			);
 		}
@@ -60,7 +66,10 @@ const CabinForm = ({ cabin = {} }) => {
 	};
 
 	return (
-		<Form onSubmit={handleSubmit(onSubmit, onError)}>
+		<Form
+			type={onCloseModal ? "modal" : "regular"}
+			onSubmit={handleSubmit(onSubmit, onError)}
+		>
 			<FormRow label="Cabin name" error={errors?.name?.message}>
 				<Input
 					type="text"
@@ -145,7 +154,11 @@ const CabinForm = ({ cabin = {} }) => {
 				<Button disabled={isLoading}>
 					{isEdit ? "Edit cabin" : "Add cabin"}
 				</Button>
-				<Button $variation="secondary" type="reset">
+				<Button
+					$variation="secondary"
+					type="reset"
+					onClick={onCloseModal}
+				>
 					Cancel
 				</Button>
 			</FormRow>
