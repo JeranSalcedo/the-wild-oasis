@@ -16,7 +16,7 @@ const TableRow = styled.div`
 	padding: 1.4rem 2.4rem;
 
 	&:not(:last-child) {
-		border-bottom: 1px solid var(--color-grey-100);
+		border-bottom: 1px solid var(--color-gray-100);
 	}
 `;
 
@@ -32,7 +32,7 @@ const Img = styled.img`
 const Cabin = styled.div`
 	font-size: 1.6rem;
 	font-weight: 600;
-	color: var(--color-grey-600);
+	color: var(--color-gray-600);
 	font-family: "Sono";
 `;
 

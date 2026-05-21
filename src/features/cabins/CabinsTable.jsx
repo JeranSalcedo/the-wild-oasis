@@ -6,8 +6,8 @@ import Spinner from "../../ui/Spinner";
 import CabinRow from "./CabinRow";
 
 const Table = styled.div`
-	background-color: var(--color-grey-0);
-	border: 1px solid var(--color-grey-200);
+	background-color: var(--color-gray-0);
+	border: 1px solid var(--color-gray-200);
 	border-radius: 7px;
 	font-size: 1.4rem;
 	overflow: hidden;
@@ -15,9 +15,9 @@ const Table = styled.div`
 
 const TableHeader = styled.header`
 	align-items: center;
-	background-color: var(--color-grey-50);
-	border-bottom: 1px solid var(--color-grey-100);
-	color: var(--color-grey-600);
+	background-color: var(--color-gray-50);
+	border-bottom: 1px solid var(--color-gray-100);
+	color: var(--color-gray-600);
 	column-gap: 2.4rem;
 	display: grid;
 	font-weight: 600;
