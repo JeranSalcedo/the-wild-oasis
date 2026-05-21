@@ -6,6 +6,7 @@ import { useCreateCabin } from "./useCreateCabin";
 import { useDeleteCabin } from "./useDeleteCabin";
 
 import CabinForm from "./CabinForm";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 import Modal from "../../ui/Modal";
 
 const TableRow = styled.div`
@@ -100,12 +101,18 @@ const CabinRow = ({ cabin }) => {
 						<CabinForm cabin={cabin} />
 					</Modal.Window>
 
-					<button
-						onClick={() => deleteCabin(id)}
-						disabled={isLoading}
-					>
-						<HiTrash />
-					</button>
+					<Modal.Open window="delete-cabin-confirm">
+						<button>
+							<HiTrash />
+						</button>
+					</Modal.Open>
+					<Modal.Window name="delete-cabin-confirm">
+						<ConfirmDelete
+							name={name}
+							onConfirm={() => deleteCabin(id)}
+							disabled={isLoading}
+						/>
+					</Modal.Window>
 				</Modal>
 			</div>
 		</TableRow>
