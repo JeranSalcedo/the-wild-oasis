@@ -1,11 +1,16 @@
 import { supabase } from "./supabase";
 
-const getBookings = async () => {
-	const { data, error } = await supabase
+const getBookings = async ({ filter, sort }) => {
+	let query = supabase
 		.from("bookings")
 		.select(
 			"id, created_at, status, date_start, date_end, nights_count, guests_count, price_total, cabins(name), guests(full_name, email)",
 		);
+	if (filter)
+		query = query[filter.method ?? "eq"](filter.field, filter.value);
+	if (sort) query = query.order(sort.field, { ascending: sort.asc });
+
+	const { data, error } = await query;
 
 	if (error) {
 		console.error(error);
