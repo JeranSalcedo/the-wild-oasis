@@ -1,6 +1,7 @@
+import { format, isToday } from "date-fns";
 import styled from "styled-components";
 
-import { formatCurrency } from "../../utils/helpers";
+import { formatCurrency, formatDateFromNow } from "../../utils/helpers";
 
 import Table from "../../ui/Table";
 import Tag from "../../ui/Tag";
@@ -59,9 +60,15 @@ const BookingRow = ({
 			</Stacked>
 
 			<Stacked>
-				<span>In X days &rarr; {nightsCount} night stay</span>
 				<span>
-					{dateStart} &mdash; {dateEnd}
+					{isToday(new Date(dateStart))
+						? "Today"
+						: formatDateFromNow(dateStart)}{" "}
+					&rarr; {nightsCount} night stay
+				</span>
+				<span>
+					{format(new Date(dateStart), "MMM dd yyyy")} &mdash;{" "}
+					{format(new Date(dateEnd), "MMM dd yyyy")}
 				</span>
 			</Stacked>
 
