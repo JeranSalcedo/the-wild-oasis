@@ -33,7 +33,7 @@ const FilterButton = styled.button`
 	}
 `;
 
-const Filter = ({ field, defaultFilter, filters }) => {
+const Filter = ({ field, defaultFilter, options }) => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const defaultValue = defaultFilter?.value ?? "";
 	const activeFilter = searchParams.get(field) ?? defaultValue;
@@ -63,7 +63,7 @@ const Filter = ({ field, defaultFilter, filters }) => {
 				</FilterButton>
 			)}
 
-			{filters.map((filter) => (
+			{options.map((filter) => (
 				<FilterButton
 					key={filter.value}
 					$active={activeFilter === filter.value}

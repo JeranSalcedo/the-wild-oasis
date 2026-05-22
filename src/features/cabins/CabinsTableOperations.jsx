@@ -6,7 +6,7 @@ const CabinsTableOperations = () => {
 		<TableOperations>
 			<Filter
 				field="discount"
-				filters={[
+				options={[
 					{ label: "No discount", value: "no-discount" },
 					{ label: "With discount", value: "with-discount" },
 				]}
