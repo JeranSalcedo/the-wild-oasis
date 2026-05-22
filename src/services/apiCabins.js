@@ -5,7 +5,7 @@ const getCabins = async () => {
 
 	if (error) {
 		console.error(error);
-		throw new Error("Cabins could not be laoded");
+		throw new Error("Cabins could not be loaded");
 	}
 
 	return data;
