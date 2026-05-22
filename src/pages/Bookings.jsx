@@ -10,9 +10,7 @@ const Bookings = () => {
 				<p>TEST</p>
 			</Row>
 
-			<Row>
-				<BookingsTable />
-			</Row>
+			<BookingsTable />
 		</>
 	);
 };
