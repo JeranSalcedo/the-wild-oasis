@@ -49,6 +49,7 @@ const Filter = ({ field, defaultFilter, options }) => {
 			params.set(field, value);
 		}
 
+		params.delete("page");
 		setSearchParams(params);
 	};
 

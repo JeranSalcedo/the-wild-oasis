@@ -10,30 +10,34 @@ const fields = {
 
 const useBookings = () => {
 	const [searchParams] = useSearchParams();
-	const activeFilter = searchParams.get("status");
-	const activeSort = searchParams.get("sort") ?? "date-dsc";
-	const [field, order] = activeSort.split("-");
 
+	const activeFilter = searchParams.get("status");
 	const filter = ["checked-out", "checked-in", "unconfirmed"].includes(
 		activeFilter,
 	)
 		? { field: "status", value: activeFilter }
 		: null;
 
+	const activeSort = searchParams.get("sort") ?? "date-dsc";
+	const [field, order] = activeSort.split("-");
 	const sort = ["date", "price"].includes(field)
 		? { field: fields[field], asc: order === "asc" }
 		: null;
 
+	const page = searchParams.has("page")
+		? Number(searchParams.get("page"))
+		: 1;
+
 	const {
 		isLoading,
-		data: bookings,
+		data: { data: bookings, count } = {},
 		error,
 	} = useQuery({
-		queryKey: ["bookings", filter, sort],
-		queryFn: () => getBookings({ filter, sort }),
+		queryKey: ["bookings", filter, sort, page],
+		queryFn: () => getBookings({ filter, sort, page }),
 	});
 
-	return { isLoading, bookings, error };
+	return { isLoading, bookings, count, error };
 };
 
 export { useBookings };
