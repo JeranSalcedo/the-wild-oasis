@@ -1,5 +1,6 @@
 import { useBookings } from "./useBookings";
 
+import BookingRow from "./BookingRow";
 import Menus from "../../ui/Menus";
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
@@ -9,6 +10,7 @@ const BookingsTable = () => {
 
 	if (isLoading) return <Spinner />;
 
+	console.log(bookings);
 	return (
 		<Menus>
 			<Table columns="0.6fr 2fr 2.4fr 1.4fr 1fr 3.2rem">
@@ -24,7 +26,7 @@ const BookingsTable = () => {
 				<Table.Body
 					data={bookings}
 					render={(booking) => (
-						<div key={booking.id}>{booking.id}</div>
+						<BookingRow key={booking.id} booking={booking} />
 					)}
 				/>
 			</Table>
