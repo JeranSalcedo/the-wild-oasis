@@ -12,4 +12,24 @@ const formatDateFromNow = (date) =>
 		.replace("about ", "")
 		.replace("in", "In");
 
-export { formatCurrency, formatDateFromNow };
+const getScrollParent = (element) => {
+	if (!element) return window;
+
+	let parent = element.parentElement;
+
+	while (parent) {
+		const { overflow, overflowX, overflowY } = getComputedStyle(parent);
+
+		const isScrollable = /(auto|scroll|overlay)/.test(
+			overflow + overflowX + overflowY,
+		);
+
+		if (isScrollable) return parent;
+
+		parent = parent.parentElement;
+	}
+
+	return window;
+};
+
+export { formatCurrency, formatDateFromNow, getScrollParent };

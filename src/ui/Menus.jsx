@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import { HiEllipsisVertical } from "react-icons/hi2";
 
+import { getScrollParent } from "../utils/helpers";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 
 const Menu = styled.div`
@@ -66,26 +67,6 @@ const StyledButton = styled.button`
 `;
 
 const MenuContext = createContext();
-
-const getScrollParent = (element) => {
-	if (!element) return window;
-
-	let parent = element.parentElement;
-
-	while (parent) {
-		const { overflow, overflowX, overflowY } = getComputedStyle(parent);
-
-		const isScrollable = /(auto|scroll|overlay)/.test(
-			overflow + overflowX + overflowY,
-		);
-
-		if (isScrollable) return parent;
-
-		parent = parent.parentElement;
-	}
-
-	return window;
-};
 
 const Menus = ({ children }) => {
 	const [activeMenu, setActiveMenu] = useState("");
