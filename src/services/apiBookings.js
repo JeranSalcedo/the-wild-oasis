@@ -44,4 +44,20 @@ const getBooking = async (id) => {
 	return data;
 };
 
-export { getBookings, getBooking };
+const updateBooking = async (id, booking) => {
+	const { data, error } = await supabase
+		.from("bookings")
+		.update(booking)
+		.eq("id", id)
+		.select()
+		.single();
+
+	if (error) {
+		console.error(error);
+		throw new Error("Booking could not be updated");
+	}
+
+	return data;
+};
+
+export { getBookings, getBooking, updateBooking };

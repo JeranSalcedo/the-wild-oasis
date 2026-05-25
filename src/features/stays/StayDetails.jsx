@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
+import { formatCurrency } from "../../utils/helpers";
 import { useBooking } from "../bookings/useBooking";
+import { useCheckIn } from "./useCheckIn";
 import { useMoveBack } from "../../hooks/useMoveBack";
 
 import Button from "../../ui/Button";
@@ -12,7 +14,6 @@ import Row from "../../ui/Row";
 import Spinner from "../../ui/Spinner";
 import TextButton from "../../ui/TextButton";
 import BookingDataBox from "../bookings/BookingDataBox";
-import { formatCurrency } from "../../utils/helpers";
 
 const Box = styled.div`
 	background-color: var(--color-gray-0);
@@ -23,6 +24,7 @@ const Box = styled.div`
 
 const StayDetails = () => {
 	const { isLoading, booking } = useBooking();
+	const { isUpdating, checkIn } = useCheckIn();
 
 	const moveBack = useMoveBack();
 
@@ -39,7 +41,11 @@ const StayDetails = () => {
 		guests: { full_name: guestName },
 	} = booking;
 
-	const handleCheckIn = () => {};
+	const handleCheckIn = () => {
+		if (!confirmPaid) return;
+
+		checkIn(id);
+	};
 
 	return (
 		<>
@@ -57,7 +63,7 @@ const StayDetails = () => {
 					onChange={() =>
 						setConfirmPaid((confirmPaid) => !confirmPaid)
 					}
-					disabled={paid}
+					disabled={paid || isUpdating}
 				>
 					I confirm that {guestName} has paid the total amount of{" "}
 					{formatCurrency(priceTotal)}
@@ -65,7 +71,10 @@ const StayDetails = () => {
 			</Box>
 
 			<ButtonGroup>
-				<Button onClick={handleCheckIn} disabled={!confirmPaid}>
+				<Button
+					onClick={handleCheckIn}
+					disabled={!confirmPaid || isUpdating}
+				>
 					Check in booking #{id}
 				</Button>
 				<Button $variation="secondary" onClick={moveBack}>
