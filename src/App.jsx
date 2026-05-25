@@ -9,6 +9,7 @@ import AppLayout from "./ui/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import Account from "./pages/Account";
 import Bookings from "./pages/Bookings";
+import Booking from "./pages/Booking";
 import Cabins from "./pages/Cabins";
 import Login from "./pages/Login";
 import Users from "./pages/Users";
@@ -37,6 +38,7 @@ const App = () => {
 						/>
 						<Route path="dashboard" element={<Dashboard />} />
 						<Route path="bookings" element={<Bookings />} />
+						<Route path="bookings/:id" element={<Booking />} />
 						<Route path="cabins" element={<Cabins />} />
 						<Route path="users" element={<Users />} />
 						<Route path="settings" element={<Settings />} />
