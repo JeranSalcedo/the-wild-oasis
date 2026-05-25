@@ -9,7 +9,7 @@ const StyledDataItem = styled.div`
 
 const Label = styled.span`
 	align-items: center;
-	display: center;
+	display: flex;
 	font-weight: 500;
 	gap: 0.8rem;
 
