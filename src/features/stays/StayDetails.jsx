@@ -57,7 +57,8 @@ const StayDetails = () => {
 
 	const handleAddBreakfast = () => {
 		setAddBreakfast((addBreakfast) => !addBreakfast);
-		setConfirmPaid(!disableConfirm);
+
+		if (paid) setConfirmPaid(!disableConfirm);
 	};
 
 	const handleCheckIn = () => {
