@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
+import { useBooking } from "./useBooking";
 import { useMoveBack } from "../../hooks/useMoveBack";
 
+import BookingDataBox from "./BookingDataBox";
 import Button from "../../ui/Button";
 import ButtonGroup from "../../ui/ButtonGroup";
 import Heading from "../../ui/Heading";
@@ -23,41 +25,27 @@ const statusColor = {
 };
 
 const BookingDetails = () => {
-	const booking = {
-		id: 22,
-		created_at: "2026-05-15T07:13:37.691+00:00",
-		status: "unconfirmed",
-		date_start: "2026-07-01T00:00:00",
-		date_end: "2026-07-11T00:00:00",
-		nights_count: 10,
-		guests_count: 7,
-		price_total: 6050,
-		guests: {
-			full_name: "Nina Williams",
-			email: "nina@hotmail.com",
-			national_id: "2345678901",
-			nationality: "South Africa",
-			country_flag: "https://flagcdn.com/za.svg",
-		},
-		cabins: { name: "007" },
-	};
-	const isLoading = false;
+	const { isLoading, booking } = useBooking();
 
 	const moveBack = useMoveBack();
 
 	if (isLoading) return <Spinner />;
 
+	const { id, status } = booking;
+
 	return (
 		<>
 			<Row type="horizontal">
 				<HeadingGroup>
-					<Heading as="h1">Booking #X</Heading>
-					<Tag type={statusColor[booking.status]}>
+					<Heading as="h1">Booking #{id}</Heading>
+					<Tag type={statusColor[status]}>
 						{booking.status.replace("-", " ")}
 					</Tag>
 				</HeadingGroup>
 				<TextButton onClick={moveBack}>&larr; Back</TextButton>
 			</Row>
+
+			<BookingDataBox booking={booking} />
 
 			<ButtonGroup>
 				<Button $variation="secondary" onClick={moveBack}>
