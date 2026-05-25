@@ -2,9 +2,10 @@ import { useNavigate } from "react-router-dom";
 import { format, isToday } from "date-fns";
 import styled from "styled-components";
 
-import { HiArrowDownOnSquare, HiEye } from "react-icons/hi2";
+import { HiArrowDownOnSquare, HiArrowUpOnSquare, HiEye } from "react-icons/hi2";
 
 import { formatCurrency, formatDateFromNow } from "../../utils/helpers";
+import { useCheckOut } from "../stays/useCheckOut";
 
 import Menus from "../../ui/Menus";
 import Table from "../../ui/Table";
@@ -55,6 +56,8 @@ const BookingRow = ({
 		cabins: { name: cabin },
 	},
 }) => {
+	const { isUpdating, checkOut } = useCheckOut();
+
 	const navigate = useNavigate();
 
 	return (
@@ -99,6 +102,16 @@ const BookingRow = ({
 							onClick={() => navigate(`/stays/${id}`)}
 						>
 							Check in
+						</Menus.Button>
+					)}
+
+					{status === "checked-in" && (
+						<Menus.Button
+							icon={<HiArrowUpOnSquare />}
+							onClick={() => checkOut(id)}
+							disabled={isUpdating}
+						>
+							Check out
 						</Menus.Button>
 					)}
 				</Menus.List>

@@ -1,7 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+import { HiArrowUpOnSquare } from "react-icons/hi2";
+
 import { useBooking } from "./useBooking";
+import { useCheckOut } from "../stays/useCheckOut";
 import { useMoveBack } from "../../hooks/useMoveBack";
 
 import BookingDataBox from "./BookingDataBox";
@@ -27,6 +30,7 @@ const statusColor = {
 
 const BookingDetails = () => {
 	const { isLoading, booking } = useBooking();
+	const { isUpdating, checkOut } = useCheckOut();
 
 	const moveBack = useMoveBack();
 	const navigate = useNavigate();
@@ -55,6 +59,13 @@ const BookingDetails = () => {
 						Check in
 					</Button>
 				)}
+
+				{status === "checked-in" && (
+					<Button onClick={() => checkOut(id)} disabled={isUpdating}>
+						<HiArrowUpOnSquare /> Check out
+					</Button>
+				)}
+
 				<Button $variation="secondary" onClick={moveBack}>
 					Back
 				</Button>
