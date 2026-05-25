@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import styled from "styled-components";
 
@@ -67,14 +67,72 @@ const StyledButton = styled.button`
 
 const MenuContext = createContext();
 
+const getScrollParent = (element) => {
+	if (!element) return window;
+
+	let parent = element.parentElement;
+
+	while (parent) {
+		const { overflow, overflowX, overflowY } = getComputedStyle(parent);
+
+		const isScrollable = /(auto|scroll|overlay)/.test(
+			overflow + overflowX + overflowY,
+		);
+
+		if (isScrollable) return parent;
+
+		parent = parent.parentElement;
+	}
+
+	return window;
+};
+
 const Menus = ({ children }) => {
 	const [activeMenu, setActiveMenu] = useState("");
-	const [position, setPosition] = useState({});
+	const [anchor, setAnchor] = useState(null);
+	const [position, setPosition] = useState({ x: 0, y: 0 });
 
-	const close = () => setActiveMenu("");
+	const close = () => {
+		setActiveMenu("");
+		setAnchor(null);
+	};
+
+	useEffect(() => {
+		if (!anchor) return;
+
+		const container = getScrollParent(anchor);
+		const updatePosition = () => {
+			const rect = anchor.getBoundingClientRect();
+
+			setPosition({
+				x: window.innerWidth - rect.width - rect.x,
+				y: rect.y + rect.height + 8,
+			});
+		};
+
+		updatePosition();
+
+		window.addEventListener("resize", updatePosition);
+		window.addEventListener("scroll", updatePosition);
+		container.addEventListener("scroll", updatePosition);
+
+		return () => {
+			window.removeEventListener("resize", updatePosition);
+			window.removeEventListener("scroll", updatePosition);
+			container.removeEventListener("scroll", updatePosition);
+		};
+	}, [anchor]);
+
 	return (
 		<MenuContext.Provider
-			value={{ activeMenu, setActiveMenu, close, position, setPosition }}
+			value={{
+				activeMenu,
+				setActiveMenu,
+				close,
+				anchor,
+				setAnchor,
+				position,
+			}}
 		>
 			{children}
 		</MenuContext.Provider>
@@ -82,22 +140,15 @@ const Menus = ({ children }) => {
 };
 
 const Toggle = ({ id }) => {
-	const { activeMenu, setActiveMenu, close, setPosition } =
+	const { activeMenu, setActiveMenu, close, setAnchor } =
 		useContext(MenuContext);
 
 	const handleClick = (e) => {
 		e.stopPropagation();
 
-		const { x, y, height, width } = e.target
-			.closest("button")
-			.getBoundingClientRect();
-
 		if (activeMenu !== id) {
 			setActiveMenu(id);
-			setPosition({
-				x: window.innerWidth - width - x,
-				y: y + height + 8,
-			});
+			setAnchor(e.currentTarget);
 		} else {
 			close();
 		}
