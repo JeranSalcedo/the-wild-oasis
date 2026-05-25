@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { format, isToday } from "date-fns";
 import styled from "styled-components";
 
-import { HiEye } from "react-icons/hi2";
+import { HiArrowDownOnSquare, HiEye } from "react-icons/hi2";
 
 import { formatCurrency, formatDateFromNow } from "../../utils/helpers";
 
@@ -92,6 +92,15 @@ const BookingRow = ({
 					>
 						See details
 					</Menus.Button>
+
+					{status === "unconfirmed" && (
+						<Menus.Button
+							icon={<HiArrowDownOnSquare />}
+							onClick={() => navigate(`/stays/${id}`)}
+						>
+							Check in
+						</Menus.Button>
+					)}
 				</Menus.List>
 			</Menus.Menu>
 		</Table.Row>

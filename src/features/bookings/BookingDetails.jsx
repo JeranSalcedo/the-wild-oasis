@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { useBooking } from "./useBooking";
@@ -28,6 +29,7 @@ const BookingDetails = () => {
 	const { isLoading, booking } = useBooking();
 
 	const moveBack = useMoveBack();
+	const navigate = useNavigate();
 
 	if (isLoading) return <Spinner />;
 
@@ -48,6 +50,11 @@ const BookingDetails = () => {
 			<BookingDataBox booking={booking} />
 
 			<ButtonGroup>
+				{status === "unconfirmed" && (
+					<Button onClick={() => navigate(`/stays/${id}`)}>
+						Check in
+					</Button>
+				)}
 				<Button $variation="secondary" onClick={moveBack}>
 					Back
 				</Button>

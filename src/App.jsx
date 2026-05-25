@@ -14,6 +14,7 @@ import Cabins from "./pages/Cabins";
 import Login from "./pages/Login";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
+import Stay from "./pages/Stay";
 import PageNotFound from "./pages/PageNotFound";
 
 const queryClient = new QueryClient({
@@ -39,6 +40,7 @@ const App = () => {
 						<Route path="dashboard" element={<Dashboard />} />
 						<Route path="bookings" element={<Bookings />} />
 						<Route path="bookings/:id" element={<Booking />} />
+						<Route path="stays/:id" element={<Stay />} />
 						<Route path="cabins" element={<Cabins />} />
 						<Route path="users" element={<Users />} />
 						<Route path="settings" element={<Settings />} />
