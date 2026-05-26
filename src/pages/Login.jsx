@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+import Heading from "../ui/Heading";
+import LoginForm from "../features/auth/LogInForm";
+import Logo from "../ui/Logo";
+
 const StyledLogin = styled.main`
 	align-content: center;
 	background-color: var(--color-gray-50);
@@ -11,7 +15,13 @@ const StyledLogin = styled.main`
 `;
 
 const Login = () => {
-	return <StyledLogin>Login</StyledLogin>;
+	return (
+		<StyledLogin>
+			<Logo />
+			<Heading as="h4">Log in to your account</Heading>
+			<LoginForm />
+		</StyledLogin>
+	);
 };
 
 export default Login;
