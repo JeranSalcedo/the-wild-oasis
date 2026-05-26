@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import LogoutButton from "../features/auth/LogoutButton";
 
 const StyledHeader = styled.header`
 	background-color: var(--color-gray-0);
@@ -7,7 +8,11 @@ const StyledHeader = styled.header`
 `;
 
 const Header = () => {
-	return <StyledHeader>HEADER</StyledHeader>;
+	return (
+		<StyledHeader>
+			<LogoutButton />
+		</StyledHeader>
+	);
 };
 
 export default Header;
