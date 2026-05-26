@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { getCurrentUser } from "../../services/apiAuth";
 
-const useUser = () => {
+const useAuth = () => {
 	const {
 		isLoading,
 		data: user,
@@ -14,10 +14,9 @@ const useUser = () => {
 
 	return {
 		isLoading,
-		user,
 		isAuthenticated: !!user,
 		error,
 	};
 };
 
-export { useUser };
+export { useAuth };
