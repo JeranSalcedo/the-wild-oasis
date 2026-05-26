@@ -72,7 +72,11 @@ const BookingDetails = () => {
 					<Modal.Window name="delete-booking-confirm">
 						<ConfirmDelete
 							name={`Booking #${id}`}
-							onConfirm={() => deleteBooking(id)}
+							onConfirm={() =>
+								deleteBooking(id, {
+									onSuccess: () => navigate(-1),
+								})
+							}
 							disabled={isUpdating || isDeleting}
 						/>
 					</Modal.Window>
