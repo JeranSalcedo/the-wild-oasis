@@ -18,6 +18,9 @@ const login = async ({ email, password }) => {
 };
 
 const getCurrentUser = async () => {
+	const { data: session } = await supabase.auth.getSession();
+	if (!session.session) return null;
+
 	const {
 		data: { user },
 		error,
