@@ -14,7 +14,7 @@ const useLogin = () => {
 			toast.success(`Welcome to The Wild Oasis`);
 			queryClient.setQueriesData(["user"], user);
 
-			navigate("/");
+			navigate("/", { replace: true });
 		},
 		onError: (error) => toast.error(error.message),
 	});
