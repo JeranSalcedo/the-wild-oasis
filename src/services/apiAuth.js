@@ -28,7 +28,7 @@ const getCurrentUserID = async () => {
 };
 
 const getCurrentUser = async () => {
-	getCurrentUserID();
+	if (!(await getCurrentUserID())) return null;
 
 	const {
 		data: { user },
