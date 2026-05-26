@@ -7,6 +7,7 @@ import GlobalStyles from "./styles/GlobalStyles";
 
 import AppLayout from "./ui/AppLayout";
 import ProtectedRoute from "./ui/ProtectedRoute";
+import PublicOnlyRoute from "./ui/PublicOnlyRoute";
 
 import Dashboard from "./pages/Dashboard";
 import Account from "./pages/Account";
@@ -54,7 +55,14 @@ const App = () => {
 						<Route path="settings" element={<Settings />} />
 						<Route path="account" element={<Account />} />
 					</Route>
-					<Route path="login" element={<Login />} />
+					<Route
+						path="login"
+						element={
+							<PublicOnlyRoute>
+								<Login />
+							</PublicOnlyRoute>
+						}
+					/>
 					<Route path="*" element={<PageNotFound />} />
 				</Routes>
 			</BrowserRouter>
