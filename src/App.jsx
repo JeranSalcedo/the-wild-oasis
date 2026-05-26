@@ -6,6 +6,8 @@ import { Toaster } from "react-hot-toast";
 import GlobalStyles from "./styles/GlobalStyles";
 
 import AppLayout from "./ui/AppLayout";
+import ProtectedRoute from "./ui/ProtectedRoute";
+
 import Dashboard from "./pages/Dashboard";
 import Account from "./pages/Account";
 import Bookings from "./pages/Bookings";
@@ -32,7 +34,13 @@ const App = () => {
 			<GlobalStyles />
 			<BrowserRouter>
 				<Routes>
-					<Route element={<AppLayout />}>
+					<Route
+						element={
+							<ProtectedRoute>
+								<AppLayout />
+							</ProtectedRoute>
+						}
+					>
 						<Route
 							index
 							element={<Navigate replace to="dashboard" />}
