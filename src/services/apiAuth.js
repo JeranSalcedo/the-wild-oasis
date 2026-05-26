@@ -17,9 +17,18 @@ const login = async ({ email, password }) => {
 	return user;
 };
 
+const getCurrentUserID = async () => {
+	const {
+		data: { session },
+	} = await supabase.auth.getSession();
+
+	if (!session) return null;
+
+	return session.user.id;
+};
+
 const getCurrentUser = async () => {
-	const { data: session } = await supabase.auth.getSession();
-	if (!session.session) return null;
+	getCurrentUserID();
 
 	const {
 		data: { user },
@@ -43,4 +52,4 @@ const logout = async () => {
 	}
 };
 
-export { login, getCurrentUser, logout };
+export { login, getCurrentUserID, getCurrentUser, logout };
