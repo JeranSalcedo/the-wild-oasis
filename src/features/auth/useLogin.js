@@ -12,7 +12,7 @@ const useLogin = () => {
 		mutationFn: loginAPI,
 		onSuccess: (user) => {
 			toast.success(`Welcome to The Wild Oasis`);
-			queryClient.setQueriesData(["user"], user);
+			queryClient.setQueryData(["user"], user);
 
 			navigate("/", { replace: true });
 		},
