@@ -1,5 +1,33 @@
 import { supabase } from "./supabase";
 
+const signup = async ({ name, email, password }) => {
+	const {
+		data: { user },
+		error,
+	} = await supabase.auth.signUp({
+		email,
+		password,
+	});
+
+	if (error) {
+		console.error(error);
+		throw new Error(error.message);
+	}
+
+	const { data: profile, error: profileError } = await supabase
+		.from("profiles")
+		.insert({ id: user.id, name })
+		.select()
+		.single();
+
+	if (profileError) {
+		console.error(profileError);
+		throw new Error(profileError.message);
+	}
+
+	return { user, profile };
+};
+
 const login = async ({ email, password }) => {
 	const {
 		data: { user },
@@ -52,4 +80,4 @@ const logout = async () => {
 	}
 };
 
-export { login, getCurrentUserID, getCurrentUser, logout };
+export { signup, login, getCurrentUserID, getCurrentUser, logout };

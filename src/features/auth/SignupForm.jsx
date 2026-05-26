@@ -1,27 +1,39 @@
 import { useForm } from "react-hook-form";
 
+import { useSignup } from "./useSignup";
+
 import Button from "../../ui/Button";
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 
 const SignupForm = () => {
-	const { register, handleSubmit, getValues, formState, reset } = useForm({
-		defaultValues: {
-			name: "",
-			email: "",
-			password: "",
-			passwordConfirm: "",
-		},
-	});
+	const { isLoading, signup } = useSignup();
+
+	const { register, handleSubmit, getValues, formState, reset, resetField } =
+		useForm({
+			defaultValues: {
+				name: "",
+				email: "",
+				password: "",
+				passwordConfirm: "",
+			},
+		});
 	const { errors } = formState;
 
-	const onSubmit = () => {
-		reset();
+	const onSubmit = (data) => {
+		signup(data, {
+			onSuccess: () => reset(),
+			onError: () => {
+				resetField("password");
+				resetField("passwordConfirm");
+			},
+		});
 	};
 
-	const onError = (errors) => {
-		console.log(errors);
+	const onError = () => {
+		resetField("password", { keepError: true });
+		resetField("passwordConfirm", { keepError: true });
 	};
 
 	return (
@@ -30,6 +42,7 @@ const SignupForm = () => {
 				<Input
 					id="name"
 					type="text"
+					disabled={isLoading}
 					{...register("name", {
 						required: "This field is required",
 					})}
@@ -40,6 +53,7 @@ const SignupForm = () => {
 				<Input
 					id="email"
 					type="email"
+					disabled={isLoading}
 					{...register("email", {
 						required: "This field is required",
 						pattern: {
@@ -54,6 +68,7 @@ const SignupForm = () => {
 				<Input
 					id="password"
 					type="password"
+					disabled={isLoading}
 					{...register("password", {
 						required: "This field is required",
 						minLength: {
@@ -70,8 +85,9 @@ const SignupForm = () => {
 				error={errors?.passwordConfirm?.message}
 			>
 				<Input
-					id="password"
+					id="passwordConfirm"
 					type="password"
+					disabled={isLoading}
 					{...register("passwordConfirm", {
 						required: "This field is required",
 						validate: (value) =>
@@ -82,8 +98,12 @@ const SignupForm = () => {
 			</FormRow>
 
 			<FormRow>
-				<Button>Create new user</Button>
-				<Button type="reset" $variation="secondary">
+				<Button disabled={isLoading}>Create new user</Button>
+				<Button
+					type="reset"
+					$variation="secondary"
+					disabled={isLoading}
+				>
 					Cancel
 				</Button>
 			</FormRow>
