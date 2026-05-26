@@ -74,7 +74,7 @@ const deleteBooking = async (id) => {
 
 	if (error) {
 		console.error(error);
-		throw new Error("Cabin could not be deleted");
+		throw new Error("Booking could not be deleted");
 	}
 
 	return data;
