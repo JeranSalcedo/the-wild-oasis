@@ -60,4 +60,24 @@ const updateBooking = async (id, booking) => {
 	return data;
 };
 
-export { getBookings, getBooking, updateBooking };
+const deleteBooking = async (id) => {
+	if (!id) {
+		throw new Error("Missing id");
+	}
+
+	const { data, error } = await supabase
+		.from("bookings")
+		.delete()
+		.eq("id", id)
+		.select()
+		.single();
+
+	if (error) {
+		console.error(error);
+		throw new Error("Cabin could not be deleted");
+	}
+
+	return data;
+};
+
+export { getBookings, getBooking, updateBooking, deleteBooking };

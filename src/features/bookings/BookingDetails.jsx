@@ -1,16 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { HiArrowUpOnSquare } from "react-icons/hi2";
+import {
+	HiArrowDownOnSquare,
+	HiArrowUpOnSquare,
+	HiTrash,
+} from "react-icons/hi2";
 
 import { useBooking } from "./useBooking";
 import { useCheckOut } from "../stays/useCheckOut";
+import { useDeleteBooking } from "./useDeleteBooking";
 import { useMoveBack } from "../../hooks/useMoveBack";
 
 import BookingDataBox from "./BookingDataBox";
 import Button from "../../ui/Button";
 import ButtonGroup from "../../ui/ButtonGroup";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 import Heading from "../../ui/Heading";
+import Modal from "../../ui/Modal";
 import Row from "../../ui/Row";
 import Spinner from "../../ui/Spinner";
 import Tag from "../../ui/Tag";
@@ -31,6 +38,7 @@ const statusColor = {
 const BookingDetails = () => {
 	const { isLoading, booking } = useBooking();
 	const { isUpdating, checkOut } = useCheckOut();
+	const { isDeleting, deleteBooking } = useDeleteBooking();
 
 	const moveBack = useMoveBack();
 	const navigate = useNavigate();
@@ -54,15 +62,34 @@ const BookingDetails = () => {
 			<BookingDataBox booking={booking} />
 
 			<ButtonGroup>
+				<Modal>
+					<Modal.Open window="delete-booking-confirm">
+						<Button $variation="danger">
+							<HiTrash /> <span>Delete</span>
+						</Button>
+					</Modal.Open>
+
+					<Modal.Window name="delete-booking-confirm">
+						<ConfirmDelete
+							name={`Booking #${id}`}
+							onConfirm={() => deleteBooking(id)}
+							disabled={isUpdating || isDeleting}
+						/>
+					</Modal.Window>
+				</Modal>
+
 				{status === "unconfirmed" && (
 					<Button onClick={() => navigate(`/stays/${id}`)}>
-						Check in
+						<HiArrowDownOnSquare /> <span>Check in</span>
 					</Button>
 				)}
 
 				{status === "checked-in" && (
-					<Button onClick={() => checkOut(id)} disabled={isUpdating}>
-						<HiArrowUpOnSquare /> Check out
+					<Button
+						onClick={() => checkOut(id)}
+						disabled={isUpdating || isDeleting}
+					>
+						<HiArrowUpOnSquare /> <span>Check out</span>
 					</Button>
 				)}
 
