@@ -71,6 +71,17 @@ const getCurrentUser = async () => {
 	return user;
 };
 
+const updatePassword = async (password) => {
+	const { data, error } = await supabase.auth.updateUser({ password });
+
+	if (error) {
+		console.error(error);
+		throw new Error(error.message);
+	}
+
+	return data;
+};
+
 const logout = async () => {
 	const { error } = await supabase.auth.signOut();
 
@@ -80,4 +91,11 @@ const logout = async () => {
 	}
 };
 
-export { signup, login, getCurrentUserID, getCurrentUser, logout };
+export {
+	signup,
+	login,
+	getCurrentUserID,
+	getCurrentUser,
+	updatePassword,
+	logout,
+};
