@@ -41,6 +41,11 @@ const UpdateUserProfileForm = () => {
 		});
 	};
 
+	const handleCancel = () => {
+		setName(currentName);
+		setAvatar(null);
+	};
+
 	return (
 		<Form onSubmit={handleSubmit}>
 			<FormRow label="Email address">
@@ -66,6 +71,7 @@ const UpdateUserProfileForm = () => {
 				<Button
 					type="reset"
 					$variation="secondary"
+					onClick={handleCancel}
 					disabled={isUpdating}
 				>
 					Cancel

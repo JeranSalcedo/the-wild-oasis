@@ -9,7 +9,7 @@ const Account = () => {
 			<Heading as="h1">Update your account</Heading>
 
 			<Row>
-				<Heading as="h3">Update user data</Heading>
+				<Heading as="h3">Update profile</Heading>
 				<UpdateUserProfileForm />
 			</Row>
 
