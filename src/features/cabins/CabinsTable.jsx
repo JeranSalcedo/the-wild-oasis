@@ -1,6 +1,5 @@
-import { useSearchParams } from "react-router-dom";
-
 import { useCabins } from "./useCabins";
+import { useCabinsFilters } from "./useCabinsFilters";
 
 import CabinRow from "./CabinRow";
 import Menus from "../../ui/Menus";
@@ -12,33 +11,20 @@ const filters = {
 	"with-discount": (cabin) => cabin.discount > 0,
 };
 
-const fields = {
-	name: "name",
-	capacity: "max_capacity",
-	price: "base_price",
-};
-
 const CabinsTable = () => {
-	const [searchParams] = useSearchParams();
-	const activeFilter = searchParams.get("discount");
-	const sort = searchParams.get("sort") ?? "name-asc";
-	const [field, order] = sort.split("-");
-
 	const { isLoading, cabins } = useCabins();
+	const { filter, sortField, isAscending } = useCabinsFilters();
 
 	if (isLoading) return <Spinner />;
 
-	const filteredCabins = filters[activeFilter]
-		? cabins.filter(filters[activeFilter])
+	const filteredCabins = filters[filter]
+		? cabins.filter(filters[filter])
 		: cabins;
 
-	const key = fields[field] ?? "created_at";
 	const sortedCabins = [...filteredCabins];
-	if (key) {
-		sortedCabins.sort((a, b) =>
-			order === "asc" ? a[key] - b[key] : b[key] - a[key],
-		);
-	}
+	sortedCabins.sort((a, b) =>
+		isAscending ? a[sortField] - b[sortField] : b[sortField] - a[sortField],
+	);
 
 	return (
 		<Menus>
