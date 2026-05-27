@@ -48,6 +48,7 @@ const getRecentBookings = async ({ period }) => {
 	const date = new Date();
 
 	date.setDate(date.getDate() - period);
+	date.setHours(0, 0, 0, 0);
 
 	const { data, error } = await supabase
 		.from("bookings")
