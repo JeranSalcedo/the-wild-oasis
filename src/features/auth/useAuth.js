@@ -14,6 +14,7 @@ const useAuth = () => {
 
 	return {
 		isLoading,
+		user,
 		isAuthenticated: !!user,
 		error,
 	};
