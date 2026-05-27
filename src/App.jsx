@@ -3,6 +3,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 
+import { ThemeProvider } from "./context/ThemeContext";
+
 import GlobalStyles from "./styles/GlobalStyles";
 
 import AppLayout from "./ui/AppLayout";
@@ -30,63 +32,65 @@ const queryClient = new QueryClient({
 
 const App = () => {
 	return (
-		<QueryClientProvider client={queryClient}>
-			<ReactQueryDevtools initialIsOpen={false} />
-			<GlobalStyles />
-			<BrowserRouter>
-				<Routes>
-					<Route
-						element={
-							<ProtectedRoute>
-								<AppLayout />
-							</ProtectedRoute>
-						}
-					>
+		<ThemeProvider>
+			<QueryClientProvider client={queryClient}>
+				<ReactQueryDevtools initialIsOpen={false} />
+				<GlobalStyles />
+				<BrowserRouter>
+					<Routes>
 						<Route
-							index
-							element={<Navigate replace to="dashboard" />}
+							element={
+								<ProtectedRoute>
+									<AppLayout />
+								</ProtectedRoute>
+							}
+						>
+							<Route
+								index
+								element={<Navigate replace to="dashboard" />}
+							/>
+							<Route path="dashboard" element={<Dashboard />} />
+							<Route path="bookings" element={<Bookings />} />
+							<Route path="bookings/:id" element={<Booking />} />
+							<Route path="stays/:id" element={<Stay />} />
+							<Route path="cabins" element={<Cabins />} />
+							<Route path="users" element={<Users />} />
+							<Route path="settings" element={<Settings />} />
+							<Route path="account" element={<Account />} />
+						</Route>
+						<Route
+							path="login"
+							element={
+								<PublicOnlyRoute>
+									<Login />
+								</PublicOnlyRoute>
+							}
 						/>
-						<Route path="dashboard" element={<Dashboard />} />
-						<Route path="bookings" element={<Bookings />} />
-						<Route path="bookings/:id" element={<Booking />} />
-						<Route path="stays/:id" element={<Stay />} />
-						<Route path="cabins" element={<Cabins />} />
-						<Route path="users" element={<Users />} />
-						<Route path="settings" element={<Settings />} />
-						<Route path="account" element={<Account />} />
-					</Route>
-					<Route
-						path="login"
-						element={
-							<PublicOnlyRoute>
-								<Login />
-							</PublicOnlyRoute>
-						}
-					/>
-					<Route path="*" element={<PageNotFound />} />
-				</Routes>
-			</BrowserRouter>
-			<Toaster
-				position="top-center"
-				gutter={12}
-				containerStyle={{ margin: "8px" }}
-				toastOption={{
-					success: {
-						duration: 3000,
-					},
-					error: {
-						duration: 5000,
-					},
-					style: {
-						backgroundColor: "var(--color-gray-0",
-						color: "var(--color-gray-700",
-						fontSize: "16px",
-						maxWidth: "500px",
-						padding: "16px 24px",
-					},
-				}}
-			/>
-		</QueryClientProvider>
+						<Route path="*" element={<PageNotFound />} />
+					</Routes>
+				</BrowserRouter>
+				<Toaster
+					position="top-center"
+					gutter={12}
+					containerStyle={{ margin: "8px" }}
+					toastOption={{
+						success: {
+							duration: 3000,
+						},
+						error: {
+							duration: 5000,
+						},
+						style: {
+							backgroundColor: "var(--color-gray-0",
+							color: "var(--color-gray-700",
+							fontSize: "16px",
+							maxWidth: "500px",
+							padding: "16px 24px",
+						},
+					}}
+				/>
+			</QueryClientProvider>
+		</ThemeProvider>
 	);
 };
 

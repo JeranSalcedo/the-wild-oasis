@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import HeaderMenu from "./HeaderMenu";
+import ThemeToggle from "./ThemeToggle";
 
 const StyledHeader = styled.header`
 	align-items: center;
@@ -16,6 +17,7 @@ const Header = () => {
 	return (
 		<StyledHeader>
 			<HeaderMenu />
+			<ThemeToggle />
 		</StyledHeader>
 	);
 };
