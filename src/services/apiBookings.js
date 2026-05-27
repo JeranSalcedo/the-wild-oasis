@@ -44,6 +44,25 @@ const getBooking = async ({ id }) => {
 	return data;
 };
 
+const getRecentBookings = async ({ period }) => {
+	const date = new Date();
+
+	date.setDate(date.getDate() - period);
+
+	const { data, error } = await supabase
+		.from("bookings")
+		.select("created_at, price_extras, price_total")
+		.gte("created_at", date.toISOString())
+		.order("created_at", { ascending: false });
+
+	if (error) {
+		console.error(error);
+		throw new Error("Bookings could not be loaded");
+	}
+
+	return data;
+};
+
 const updateBooking = async ({ id, booking }) => {
 	const { data, error } = await supabase
 		.from("bookings")
@@ -80,4 +99,10 @@ const deleteBooking = async ({ id }) => {
 	return data;
 };
 
-export { getBookings, getBooking, updateBooking, deleteBooking };
+export {
+	getBookings,
+	getBooking,
+	getRecentBookings,
+	updateBooking,
+	deleteBooking,
+};
