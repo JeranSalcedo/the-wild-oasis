@@ -1,14 +1,16 @@
+import {
+	DASHBOARD_FILTER_OPTIONS,
+	DEFAULT_DASHBOARD_FILTERS,
+} from "./dashboardConstants";
+
 import Filter from "../../ui/Filter";
 
 const DashboardFilter = () => {
 	return (
 		<Filter
-			field="days"
-			options={[
-				{ label: "Last 7 days", value: "7" },
-				{ label: "Last 30 days", value: "30" },
-				{ label: "Last 90 days", value: "90" },
-			]}
+			field={DEFAULT_DASHBOARD_FILTERS.field}
+			alwaysActive={true}
+			options={DASHBOARD_FILTER_OPTIONS}
 		/>
 	);
 };
