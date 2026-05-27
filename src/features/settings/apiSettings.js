@@ -1,4 +1,4 @@
-import { supabase } from "./supabase";
+import { supabase } from "../../services/supabase";
 
 const getSettings = async () => {
 	const { data, error } = await supabase

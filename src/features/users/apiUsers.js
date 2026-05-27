@@ -1,6 +1,6 @@
-import { supabase, supabaseUrl } from "./supabase";
+import { supabase, supabaseUrl } from "../../services/supabase";
 
-import { getCurrentUserID } from "./apiAuth";
+import { getCurrentUserID } from "../auth/apiAuth";
 
 const getCurrentUserProfile = async () => {
 	const id = await getCurrentUserID();

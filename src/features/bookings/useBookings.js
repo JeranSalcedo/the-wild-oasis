@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { PAGE_SIZE } from "../../utils/constants";
 
-import { getBookings } from "../../services/apiBookings";
+import { getBookings } from "./apiBookings";
 import { useBookingsFilters } from "./useBookingsFilters";
 
 const useBookings = () => {

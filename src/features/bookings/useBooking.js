@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
-import { getBooking } from "../../services/apiBookings";
+import { getBooking } from "./apiBookings";
 
 const useBooking = () => {
 	const { id } = useParams();

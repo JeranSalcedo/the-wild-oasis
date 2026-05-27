@@ -1,6 +1,6 @@
-import { supabase } from "./supabase";
+import { supabase } from "../../services/supabase";
 
-import { PAGE_SIZE } from "../utils/constants";
+import { PAGE_SIZE } from "../../utils/constants";
 
 const getBookings = async ({ filter, sort, page }) => {
 	let query = supabase

@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-import { signup as signupAPI } from "../../services/apiAuth";
+import { signup as signupAPI } from "./apiAuth";
 
 const useSignup = () => {
 	const { isLoading, mutate: signup } = useMutation({

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getRecentStays } from "../../services/apiBookings";
+import { getRecentStays } from "../bookings/apiBookings";
 import { useDashboardFilters } from "./useDashboardFilters";
 
 const ACTIVE_STAY_STATUSES = ["checked-in", "checked-out"];

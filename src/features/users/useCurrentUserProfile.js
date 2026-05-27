@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getCurrentUserProfile } from "../../services/apiUsers";
+import { getCurrentUserProfile } from "./apiUsers";
 
 const useCurrentUserProfile = () => {
 	const { isLoading, data: profile } = useQuery({

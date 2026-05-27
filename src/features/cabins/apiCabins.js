@@ -1,4 +1,4 @@
-import { supabase, supabaseUrl } from "./supabase";
+import { supabase, supabaseUrl } from "../../services/supabase";
 
 const getCabins = async () => {
 	const { data, error } = await supabase.from("cabins").select();

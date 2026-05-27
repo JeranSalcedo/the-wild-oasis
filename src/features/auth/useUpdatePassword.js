@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-import { updatePassword as updatePasswordAPI } from "../../services/apiAuth";
+import { updatePassword as updatePasswordAPI } from "./apiAuth";
 
 const useUpdatePassword = () => {
 	const { isLoading: isUpdating, mutate: updatePassword } = useMutation({

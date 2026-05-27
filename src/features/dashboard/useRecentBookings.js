@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getRecentBookings } from "../../services/apiBookings";
+import { getRecentBookings } from "../bookings/apiBookings";
 import { useDashboardFilters } from "./useDashboardFilters";
 
 const useRecentBookings = () => {
