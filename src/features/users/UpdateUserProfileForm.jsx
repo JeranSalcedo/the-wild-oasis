@@ -1,5 +1,8 @@
 import { useState } from "react";
+
 import { useAuth } from "../../features/auth/useAuth";
+import { useCurrentUserProfile } from "./useCurrentUserProfile";
+import { useUpdateCurrentUserProfile } from "./useUpdateCurrentUserProfile";
 
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
@@ -11,15 +14,25 @@ const UpdateUserProfileForm = () => {
 	const {
 		user: { email },
 	} = useAuth();
+	const { profile: { name: currentName } = {} } = useCurrentUserProfile();
 
-	const [name, setName] = useState("");
+	const { isUpdating, updateProfile } = useUpdateCurrentUserProfile();
+
+	const [name, setName] = useState(currentName ?? "");
 	const [avatar, setAvatar] = useState(null);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		const validName = name && name !== currentName;
 
-		console.log(name);
-		console.log(avatar);
+		if (!validName && !avatar) return;
+
+		const data = {};
+
+		if (validName) data.name = name;
+		if (avatar) data.avatar = avatar;
+
+		updateProfile(data);
 	};
 
 	return (
@@ -28,17 +41,26 @@ const UpdateUserProfileForm = () => {
 				<Input value={email} disabled />
 			</FormRow>
 			<FormRow label="Full name">
-				<Input value={name} onChange={(e) => setName(e.target.value)} />
+				<Input
+					value={name}
+					onChange={(e) => setName(e.target.value)}
+					disabled={isUpdating}
+				/>
 			</FormRow>
 			<FormRow label="Avatar">
 				<FileInput
 					accept="image/*"
 					onChange={(e) => setAvatar(e.target.files.item(0))}
+					disabled={isUpdating}
 				/>
 			</FormRow>
 			<FormRow>
-				<Button>Update account</Button>
-				<Button type="reset" $variation="secondary">
+				<Button disabled={isUpdating}>Update account</Button>
+				<Button
+					type="reset"
+					$variation="secondary"
+					disabled={isUpdating}
+				>
 					Cancel
 				</Button>
 			</FormRow>
