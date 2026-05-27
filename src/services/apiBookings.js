@@ -64,6 +64,29 @@ const getRecentBookings = async ({ period }) => {
 	return data;
 };
 
+const getRecentStays = async ({ period }) => {
+	const startDate = new Date();
+	startDate.setDate(startDate.getDate() - period);
+	startDate.setHours(0, 0, 0, 0);
+
+	const endDate = new Date();
+	endDate.setHours(23, 59, 59, 999);
+
+	const { data, error } = await supabase
+		.from("bookings")
+		.select("*, guests(full_name)")
+		.gte("date_start", startDate.toISOString())
+		.lte("date_start", endDate.toISOString())
+		.order("date_start", { ascending: false });
+
+	if (error) {
+		console.error(error);
+		throw new Error("Bookings could not be loaded");
+	}
+
+	return data;
+};
+
 const updateBooking = async ({ id, booking }) => {
 	const { data, error } = await supabase
 		.from("bookings")
@@ -104,6 +127,7 @@ export {
 	getBookings,
 	getBooking,
 	getRecentBookings,
+	getRecentStays,
 	updateBooking,
 	deleteBooking,
 };
