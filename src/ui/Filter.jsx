@@ -27,21 +27,26 @@ const FilterButton = styled.button`
 			color: var(--color-brand-50);
 		`}
 
+	&:disabled {
+		cursor: default;
+	}
+
 	&:hover:not(:disabled) {
 		background-color: var(--color-brand-600);
 		color: var(--color-brand-50);
 	}
 `;
 
-const Filter = ({ field, defaultFilter, options }) => {
+const Filter = ({ field, alwaysActive = false, options }) => {
 	const [searchParams, setSearchParams] = useSearchParams();
-	const defaultValue = defaultFilter?.value ?? "";
-	const activeFilter = searchParams.get(field) ?? defaultValue;
+	const activeFilter =
+		searchParams.get(field) ??
+		(alwaysActive ? (options?.at(0)?.value ?? "") : "");
 
 	const handleClick = (value) => {
 		const params = new URLSearchParams(searchParams);
 
-		if (value === activeFilter || value === defaultValue) {
+		if (value === activeFilter || value === "") {
 			params.delete(field);
 
 			setSearchParams(params);
@@ -55,20 +60,12 @@ const Filter = ({ field, defaultFilter, options }) => {
 
 	return (
 		<StyledFilter>
-			{defaultFilter && (
-				<FilterButton
-					$active={activeFilter === defaultFilter.value}
-					onClick={() => handleClick(defaultFilter.value)}
-				>
-					{defaultFilter.label}
-				</FilterButton>
-			)}
-
 			{options.map((filter) => (
 				<FilterButton
 					key={filter.value}
 					$active={activeFilter === filter.value}
 					onClick={() => handleClick(filter.value)}
+					disabled={alwaysActive && activeFilter === filter.value}
 				>
 					{filter.label}
 				</FilterButton>
