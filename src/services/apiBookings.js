@@ -29,7 +29,7 @@ const getBookings = async ({ filter, sort, page }) => {
 	return { data, count };
 };
 
-const getBooking = async (id) => {
+const getBooking = async ({ id }) => {
 	const { data, error } = await supabase
 		.from("bookings")
 		.select("*, cabins(name), guests(*)")
@@ -44,7 +44,7 @@ const getBooking = async (id) => {
 	return data;
 };
 
-const updateBooking = async (id, booking) => {
+const updateBooking = async ({ id, booking }) => {
 	const { data, error } = await supabase
 		.from("bookings")
 		.update(booking)
@@ -60,7 +60,7 @@ const updateBooking = async (id, booking) => {
 	return data;
 };
 
-const deleteBooking = async (id) => {
+const deleteBooking = async ({ id }) => {
 	if (!id) {
 		throw new Error("Missing id");
 	}

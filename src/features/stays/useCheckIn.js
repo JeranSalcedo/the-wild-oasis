@@ -10,10 +10,13 @@ const useCheckIn = () => {
 
 	const { isLoading: isUpdating, mutate: checkIn } = useMutation({
 		mutationFn: ({ id, data }) =>
-			updateBooking(id, {
-				...data,
-				status: "checked-in",
-				paid: true,
+			updateBooking({
+				id,
+				booking: {
+					...data,
+					status: "checked-in",
+					paid: true,
+				},
 			}),
 		onSuccess: (data) => {
 			toast.success(`Booking #${data.id} successfully checked in`);

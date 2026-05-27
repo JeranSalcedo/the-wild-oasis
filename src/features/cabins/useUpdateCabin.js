@@ -7,7 +7,7 @@ const useUpdateCabin = () => {
 	const queryClient = useQueryClient();
 
 	const { isLoading: isUpdating, mutate: updateCabin } = useMutation({
-		mutationFn: ({ id, data }) => updateCabinAPI(id, data),
+		mutationFn: updateCabinAPI,
 		onSuccess: () => {
 			toast.success("Cabin successfully edited");
 

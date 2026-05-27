@@ -108,7 +108,7 @@ const CabinRow = ({ cabin }) => {
 						<Modal.Window name="delete-cabin-confirm">
 							<ConfirmDelete
 								name={name}
-								onConfirm={() => deleteCabin(id)}
+								onConfirm={() => deleteCabin({ id })}
 								disabled={isLoading}
 							/>
 						</Modal.Window>

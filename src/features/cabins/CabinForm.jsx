@@ -33,7 +33,7 @@ const CabinForm = ({ cabin = {}, onCloseModal }) => {
 			updateCabin(
 				{
 					id: cabin.id,
-					data: {
+					cabin: {
 						...data,
 						image: data.image.item(0) ?? cabin.image_url,
 					},

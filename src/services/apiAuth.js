@@ -71,7 +71,7 @@ const getCurrentUser = async () => {
 	return user;
 };
 
-const updatePassword = async (password) => {
+const updatePassword = async ({ password }) => {
 	const { data, error } = await supabase.auth.updateUser({ password });
 
 	if (error) {

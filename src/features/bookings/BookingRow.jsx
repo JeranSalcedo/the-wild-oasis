@@ -137,7 +137,7 @@ const BookingRow = ({
 					<Modal.Window name="delete-booking-confirm">
 						<ConfirmDelete
 							name={`Booking #${id}`}
-							onConfirm={() => deleteBooking(id)}
+							onConfirm={() => deleteBooking({ id })}
 							disabled={isLoading}
 						/>
 					</Modal.Window>

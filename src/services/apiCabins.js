@@ -34,19 +34,28 @@ const uploadImage = async (image) => {
 	return { imageName, imagePath };
 };
 
+const formatCabin = ({
+	name,
+	description,
+	imagePath,
+	maxCapacity,
+	basePrice,
+	discount,
+}) => ({
+	name,
+	description,
+	image_url: imagePath,
+	max_capacity: maxCapacity,
+	base_price: basePrice,
+	discount,
+});
+
 const createCabin = async (cabin) => {
 	const { imageName, imagePath } = await uploadImage(cabin.image);
 
-	const { data, error } = await supabase.from("cabins").insert([
-		{
-			name: cabin.name,
-			description: cabin.description,
-			image_url: imagePath,
-			max_capacity: cabin.maxCapacity,
-			base_price: cabin.basePrice,
-			discount: cabin.discount,
-		},
-	]);
+	const cabinData = formatCabin({ ...cabin, imagePath });
+
+	const { data, error } = await supabase.from("cabins").insert([cabinData]);
 
 	if (error) {
 		await supabase.storage.from("cabin-images").remove([imageName]);
@@ -58,19 +67,14 @@ const createCabin = async (cabin) => {
 	return data;
 };
 
-const updateCabin = async (id, cabin) => {
+const updateCabin = async ({ id, cabin }) => {
 	const { imagePath } = await uploadImage(cabin.image);
+
+	const cabinData = formatCabin({ ...cabin, imagePath });
 
 	const { data, error } = await supabase
 		.from("cabins")
-		.update({
-			name: cabin.name,
-			description: cabin.description,
-			image_url: imagePath,
-			max_capacity: cabin.maxCapacity,
-			base_price: cabin.basePrice,
-			discount: cabin.discount,
-		})
+		.update(cabinData)
 		.eq("id", id);
 
 	if (error) {
@@ -81,7 +85,7 @@ const updateCabin = async (id, cabin) => {
 	return data;
 };
 
-const deleteCabin = async (id) => {
+const deleteCabin = async ({ id }) => {
 	if (!id) {
 		throw new Error("Missing id");
 	}

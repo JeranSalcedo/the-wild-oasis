@@ -73,9 +73,12 @@ const BookingDetails = () => {
 						<ConfirmDelete
 							name={`Booking #${id}`}
 							onConfirm={() =>
-								deleteBooking(id, {
-									onSuccess: () => navigate(-1),
-								})
+								deleteBooking(
+									{ id },
+									{
+										onSuccess: () => navigate(-1),
+									},
+								)
 							}
 							disabled={isUpdating || isDeleting}
 						/>

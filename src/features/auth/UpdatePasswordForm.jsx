@@ -24,7 +24,7 @@ const UpdatePasswordForm = () => {
 	});
 
 	const onSubmit = ({ password }) => {
-		updatePassword(password, { onSettled: () => reset() });
+		updatePassword({ password }, { onSettled: () => reset() });
 	};
 
 	const onError = () => {

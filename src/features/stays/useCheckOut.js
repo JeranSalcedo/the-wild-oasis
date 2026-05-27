@@ -8,8 +8,11 @@ const useCheckOut = () => {
 
 	const { isLoading: isUpdating, mutate: checkOut } = useMutation({
 		mutationFn: (id) =>
-			updateBooking(id, {
-				status: "checked-out",
+			updateBooking({
+				id,
+				booking: {
+					status: "checked-out",
+				},
 			}),
 		onSuccess: (data) => {
 			toast.success(`Booking #${data.id} successfully checked out`);
