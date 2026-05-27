@@ -14,8 +14,10 @@ const StyledHeaderUser = styled.div`
 	font-weight: 500;
 	font-size: 1.4rem;
 	gap: 1.2rem;
+	height: 4rem;
 	padding: 0.6rem;
 	transition: all 0.2s;
+	width: 18rem;
 
 	&:hover {
 		background-color: var(--color-gray-100);
