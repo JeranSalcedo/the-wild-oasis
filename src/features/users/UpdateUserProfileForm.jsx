@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { useAuth } from "../../features/auth/useAuth";
 import { useCurrentUserProfile } from "./useCurrentUserProfile";
@@ -20,6 +20,7 @@ const UpdateUserProfileForm = () => {
 
 	const [name, setName] = useState(currentName ?? "");
 	const [avatar, setAvatar] = useState(null);
+	const avatarInputRef = useRef();
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -32,7 +33,12 @@ const UpdateUserProfileForm = () => {
 		if (validName) data.name = name;
 		if (avatar) data.avatar = avatar;
 
-		updateProfile(data);
+		updateProfile(data, {
+			onSettled: () => {
+				avatarInputRef.current.value = "";
+				setAvatar(null);
+			},
+		});
 	};
 
 	return (
@@ -49,6 +55,7 @@ const UpdateUserProfileForm = () => {
 			</FormRow>
 			<FormRow label="Avatar">
 				<FileInput
+					ref={avatarInputRef}
 					accept="image/*"
 					onChange={(e) => setAvatar(e.target.files.item(0))}
 					disabled={isUpdating}
