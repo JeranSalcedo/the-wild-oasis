@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
+
 import { getCurrentUserProfile } from "../../services/apiUsers";
 
-const useUserProfile = () => {
+const useCurrentUserProfile = () => {
 	const { isLoading, data: profile } = useQuery({
 		queryKey: ["profile"],
 		queryFn: getCurrentUserProfile,
@@ -10,4 +11,4 @@ const useUserProfile = () => {
 	return { isLoading, profile };
 };
 
-export { useUserProfile };
+export { useCurrentUserProfile };

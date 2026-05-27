@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { useUserProfile } from "./useUserProfile";
+import { useCurrentUserProfile } from "./useCurrentUserProfile";
 
 import SpinnerMini from "../../ui/SpinnerMini";
 
@@ -36,7 +36,7 @@ const Avatar = styled.img`
 
 const HeaderUser = () => {
 	const { isLoading, profile: { name, avatar_url: avatarURL } = {} } =
-		useUserProfile();
+		useCurrentUserProfile();
 
 	return (
 		<StyledHeaderUser>
