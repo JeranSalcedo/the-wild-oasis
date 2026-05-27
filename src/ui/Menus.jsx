@@ -120,7 +120,7 @@ const Menus = ({ children }) => {
 	);
 };
 
-const Toggle = ({ id }) => {
+const Toggle = ({ id, children }) => {
 	const { activeMenu, setActiveMenu, close, setAnchor } =
 		useContext(MenuContext);
 
@@ -137,7 +137,7 @@ const Toggle = ({ id }) => {
 
 	return (
 		<StyledToggle data-menu-trigger onClick={handleClick}>
-			<HiEllipsisVertical />
+			{children || <HiEllipsisVertical />}
 		</StyledToggle>
 	);
 };
