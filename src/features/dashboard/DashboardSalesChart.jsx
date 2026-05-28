@@ -15,6 +15,7 @@ import { CHART_COLORS } from "./dashboardConstants";
 import { getDateRange } from "../../utils/helpers";
 import { useTheme } from "../../context/ThemeContext";
 
+import ChartTooltip from "../../ui/ChartTooltip";
 import DashboardBox from "./DashboardBox";
 import Heading from "../../ui/Heading";
 
@@ -64,7 +65,6 @@ const DashboardSalesChart = ({ bookings, period }) => {
 
 	const theme = isDarkMode ? "dark" : "light";
 	const {
-		background,
 		text,
 		lineChart: { salesExtras, salesTotal },
 	} = CHART_COLORS[theme];
@@ -89,7 +89,7 @@ const DashboardSalesChart = ({ bookings, period }) => {
 						tickLine={{ stroke: text }}
 					/>
 					<CartesianGrid />
-					<Tooltip contentStyle={{ backgroundColor: background }} />
+					<Tooltip content={<ChartTooltip />} />
 					<Area
 						dataKey="salesTotal"
 						name="Total sales"
