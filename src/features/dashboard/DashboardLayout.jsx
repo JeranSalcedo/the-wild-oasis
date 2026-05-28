@@ -5,6 +5,7 @@ import { useRecentBookings } from "./useRecentBookings";
 import { useCabins } from "../cabins/useCabins";
 import { useRecentStays } from "./useRecentStays";
 
+import DashboardDurationsChart from "./DashboardDurationsChart";
 import DashboardSalesChart from "./DashboardSalesChart";
 import DashboardStats from "./DashboardStats";
 import Spinner from "../../ui/Spinner";
@@ -34,7 +35,7 @@ const DashboardLayout = () => {
 				period={period}
 			/>
 			<div>Today&apos;s activity</div>
-			<div>Chart stay durations</div>
+			<DashboardDurationsChart confirmedStays={confirmedStays} />
 			<DashboardSalesChart bookings={bookings} period={period} />
 		</StyledDashboardLayout>
 	);
