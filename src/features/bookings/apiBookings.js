@@ -47,12 +47,13 @@ const getBooking = async ({ id }) => {
 };
 
 const getRecentBookings = async ({ period }) => {
-	const { startDate } = getDateRange(period);
+	const { startDate, endDate } = getDateRange(period);
 
 	const { data, error } = await supabase
 		.from("bookings")
 		.select("created_at, price_extras, price_total")
 		.gte("created_at", startDate.toISOString())
+		.lte("created_at", endDate.toISOString())
 		.order("created_at", { ascending: false });
 
 	if (error) {
