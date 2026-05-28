@@ -10,7 +10,7 @@ import {
 import { eachDayOfInterval, format } from "date-fns";
 import styled from "styled-components";
 
-import { DARK_CHART_COLORS, LIGHT_CHART_COLORS } from "./dashboardConstants";
+import { CHART_COLORS } from "./dashboardConstants";
 
 import { getDateRange } from "../../utils/helpers";
 import { useTheme } from "../../context/ThemeContext";
@@ -62,9 +62,12 @@ const DashboardSalesChart = ({ bookings, period }) => {
 		};
 	});
 
-	const { salesExtras, salesTotal, text, background } = isDarkMode
-		? DARK_CHART_COLORS
-		: LIGHT_CHART_COLORS;
+	const theme = isDarkMode ? "dark" : "light";
+	const {
+		background,
+		text,
+		lineChart: { salesExtras, salesTotal },
+	} = CHART_COLORS[theme];
 
 	return (
 		<StyledDashboardSalesChart>
