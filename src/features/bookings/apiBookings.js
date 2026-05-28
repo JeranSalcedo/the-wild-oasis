@@ -2,6 +2,8 @@ import { supabase } from "../../services/supabase";
 
 import { PAGE_SIZE } from "../../utils/constants";
 
+import { getDateRange } from "../../utils/helpers";
+
 const getBookings = async ({ filter, sort, page }) => {
 	let query = supabase
 		.from("bookings")
@@ -45,15 +47,12 @@ const getBooking = async ({ id }) => {
 };
 
 const getRecentBookings = async ({ period }) => {
-	const date = new Date();
-
-	date.setDate(date.getDate() - period);
-	date.setHours(0, 0, 0, 0);
+	const { startDate } = getDateRange(period);
 
 	const { data, error } = await supabase
 		.from("bookings")
 		.select("created_at, price_extras, price_total")
-		.gte("created_at", date.toISOString())
+		.gte("created_at", startDate.toISOString())
 		.order("created_at", { ascending: false });
 
 	if (error) {
@@ -65,12 +64,7 @@ const getRecentBookings = async ({ period }) => {
 };
 
 const getRecentStays = async ({ period }) => {
-	const startDate = new Date();
-	startDate.setDate(startDate.getDate() - period);
-	startDate.setHours(0, 0, 0, 0);
-
-	const endDate = new Date();
-	endDate.setHours(23, 59, 59, 999);
+	const { startDate, endDate } = getDateRange(period);
 
 	const { data, error } = await supabase
 		.from("bookings")
