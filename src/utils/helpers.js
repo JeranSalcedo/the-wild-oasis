@@ -35,7 +35,7 @@ const getScrollParent = (element) => {
 const getDateRange = (period) => {
 	const startDate = new Date();
 
-	startDate.setDate(startDate.getDate() - period);
+	startDate.setDate(startDate.getDate() - (period - 1));
 
 	startDate.setHours(0, 0, 0, 0);
 
