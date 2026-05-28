@@ -46,6 +46,23 @@ const getBooking = async ({ id }) => {
 	return data;
 };
 
+const getOperationsByDate = async ({ start, end }) => {
+	const { data, error } = await supabase
+		.from("bookings")
+		.select("*, cabins(name), guests(*)")
+		.or(
+			`and(status.eq.unconfirmed,date_start.gte.${start},date_start.lt.${end}),and(status.eq.checked-in,date_end.gte.${start},date_end.lt.${end})`,
+		)
+		.order("created_at");
+
+	if (error) {
+		console.error(error);
+		throw new Error("Operations could not be loaded");
+	}
+
+	return data;
+};
+
 const getRecentBookings = async ({ period }) => {
 	const { startDate, endDate } = getDateRange(period);
 
@@ -121,6 +138,7 @@ const deleteBooking = async ({ id }) => {
 export {
 	getBookings,
 	getBooking,
+	getOperationsByDate,
 	getRecentBookings,
 	getRecentStays,
 	updateBooking,
