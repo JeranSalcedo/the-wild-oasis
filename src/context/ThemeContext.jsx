@@ -8,7 +8,7 @@ const ThemeContext = createContext();
 
 const ThemeProvider = ({ children }) => {
 	const [isDarkMode, setIsDarkMode] = useLocalStorageState(
-		false,
+		window.matchMedia("[prefers-color-scheme: dark").matches,
 		"dark-mode",
 	);
 
