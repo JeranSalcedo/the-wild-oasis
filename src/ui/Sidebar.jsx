@@ -1,5 +1,8 @@
 import styled from "styled-components";
 
+import { useCurrentUserProfile } from "../features/users/useCurrentUserProfile";
+import Uploader from "../data/Uploader";
+
 import Logo from "./Logo";
 import MainNav from "./MainNav";
 
@@ -15,10 +18,14 @@ const StyledSidebar = styled.aside`
 `;
 
 const Sidebar = () => {
+	const { isLoading, profile: { role } = {} } = useCurrentUserProfile();
+
 	return (
 		<StyledSidebar>
 			<Logo />
 			<MainNav />
+
+			{!isLoading && role === "admin" && <Uploader />}
 		</StyledSidebar>
 	);
 };
