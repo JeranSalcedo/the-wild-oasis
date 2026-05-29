@@ -44,6 +44,7 @@ const BookingDetails = () => {
 	const navigate = useNavigate();
 
 	if (isLoading) return <Spinner />;
+	if (!booking) return <span>No booking could be found</span>;
 
 	const { id, status } = booking;
 
