@@ -9,7 +9,7 @@ const getCurrentUserProfile = async () => {
 
 	const { data, error } = await supabase
 		.from("profiles")
-		.select("id, name, avatar_url")
+		.select("id, name, avatar_url, role")
 		.eq("id", id)
 		.single();
 
@@ -49,9 +49,7 @@ const updateCurrentUserProfile = async ({ name, avatar }) => {
 	const { data, error } = await supabase
 		.from("profiles")
 		.update(updateData)
-		.eq("id", id)
-		.select()
-		.single();
+		.eq("id", id);
 
 	if (error) {
 		console.error(error);

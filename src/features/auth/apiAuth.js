@@ -17,7 +17,7 @@ const signup = async ({ name, email, password }) => {
 	const { data: profile, error: profileError } = await supabase
 		.from("profiles")
 		.insert({ id: user.id, name })
-		.select()
+		.select("name")
 		.single();
 
 	if (profileError) {
