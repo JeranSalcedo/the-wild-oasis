@@ -14,7 +14,7 @@ const Img = styled.img`
 const Logo = () => {
 	const { isDarkMode } = useTheme();
 
-	const imgSrc = isDarkMode ? "logo-dark.png" : "logo-light.png";
+	const imgSrc = isDarkMode ? "/logo-dark.png" : "/logo-light.png";
 
 	return (
 		<StyledLogo>
