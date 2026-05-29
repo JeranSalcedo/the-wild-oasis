@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import Heading from "../ui/Heading";
-import LoginForm from "../features/auth/LogInForm";
+import LoginForm from "../features/auth/LoginForm";
 import Logo from "../ui/Logo";
 
 const StyledLogin = styled.main`
