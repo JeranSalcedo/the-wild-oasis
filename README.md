@@ -2,6 +2,10 @@
 
 Hotel management application built with React, Supabase, React Query, and styled-components. Features a dashboard displaying statistics powered by Recharts and data tables for managing bookings and cabins.
 
+## Guest Account
+Email: `test@test.com`
+<br>Password: `testuser`
+
 ---
 
 ## Features
